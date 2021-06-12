@@ -1,0 +1,144 @@
+package com.openclassrooms.entrevoisins.ui.neighbour_list;
+
+import android.content.Intent;
+import android.os.Handler;
+import android.support.annotation.DrawableRes;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
+import android.text.Layout;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.openclassrooms.entrevoisins.R;
+import com.openclassrooms.entrevoisins.di.DI;
+import com.openclassrooms.entrevoisins.model.Neighbour;
+import com.openclassrooms.entrevoisins.service.NeighbourApiService;
+
+import java.lang.reflect.Constructor;
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+import static com.openclassrooms.entrevoisins.ui.neighbour_list.MyNeighbourRecyclerViewAdapter.KEY_NEIGHBOUR;
+
+
+public class DetailActivity extends AppCompatActivity{
+    private NeighbourApiService mApiService;
+@BindView(R.id.buttonFav)
+    ImageButton mImageButton;
+@BindView(R.id.addressDetail)
+    TextView mAddress;
+@BindView(R.id.nameHeader)
+TextView mNameHeader;
+@BindView(R.id.imageViewAvatar)
+    ImageView mImageAvatar;
+@BindView(R.id.whiteName)
+    TextView mWhiteName=mNameHeader;
+@BindView(R.id.phone)
+    TextView mPhone;
+@BindView(R.id.net)
+    TextView mNet;
+@BindView(R.id.info)
+    TextView mInfo;
+Neighbour mNeighbour;
+
+
+
+
+
+    public int fav;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_detail);
+        ButterKnife.bind(this);
+        mApiService = DI.getNeighbourApiService();
+
+        Intent intent=getIntent();
+
+
+
+
+
+/**mise en place des informations*/
+
+        mNeighbour=intent.getParcelableExtra(KEY_NEIGHBOUR);
+        mNet.setText(mNeighbour.getAvatarUrl());
+        mWhiteName=mNameHeader;
+        mNameHeader.setText(mNeighbour.getName());
+        mInfo.setText(mNeighbour.getAboutMe());
+        mPhone.setText(mNeighbour.getPhoneNumber());
+        mAddress.setText(mNeighbour.getAddress());
+        Glide.with(mImageAvatar.getContext())
+                .load(mNeighbour.getAvatarUrl())
+                .apply(RequestOptions.centerCropTransform())
+                .into(mImageAvatar);
+
+
+        if (mApiService.getFavorite().contains(mNeighbour)==true){
+
+            fav=1;
+
+            mImageButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_white_24dp));
+        }
+
+        else {fav=0;
+            mImageButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_border_white_24dp));
+            }
+
+
+
+
+        /**bouton d'ajout aux favoris*/
+
+
+        mImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view){
+            if (fav==1)
+
+            {
+                mImageButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_border_white_24dp));
+                fav=0;
+                mApiService.deleteFavorite(mNeighbour);
+
+
+            }
+
+
+                else {
+
+            mImageButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_star_white_24dp));
+            fav=1;
+            mApiService.addFavorite(mNeighbour);
+
+
+
+
+        }
+
+
+    }
+
+});}
+
+}
+
+
+
+
+
+
