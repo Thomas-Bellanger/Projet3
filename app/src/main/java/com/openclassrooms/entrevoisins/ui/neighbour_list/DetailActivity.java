@@ -3,6 +3,7 @@ package com.openclassrooms.entrevoisins.ui.neighbour_list;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -17,8 +18,6 @@ import com.openclassrooms.entrevoisins.service.NeighbourApiService;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static com.openclassrooms.entrevoisins.ui.neighbour_list.MyNeighbourRecyclerViewAdapter.KEY_NEIGHBOUR;
 
 
 public class DetailActivity extends AppCompatActivity {
@@ -41,6 +40,7 @@ public class DetailActivity extends AppCompatActivity {
     TextView mInfo;
     Neighbour mNeighbour;
     private NeighbourApiService mApiService;
+    public static final String KEY_NEIGHBOUR = "neighbour";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +56,8 @@ public class DetailActivity extends AppCompatActivity {
 
         mNeighbour = intent.getParcelableExtra(KEY_NEIGHBOUR);
         mNet.setText(mNeighbour.getAvatarUrl());
-        mWhiteName = mNameHeader;
         mNameHeader.setText(mNeighbour.getName());
+        mWhiteName.setText(mNeighbour.getName());
         mInfo.setText(mNeighbour.getAboutMe());
         mPhone.setText(mNeighbour.getPhoneNumber());
         mAddress.setText(mNeighbour.getAddress());

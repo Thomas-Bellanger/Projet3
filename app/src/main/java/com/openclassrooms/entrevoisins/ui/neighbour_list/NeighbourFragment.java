@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -97,8 +98,9 @@ public class NeighbourFragment extends Fragment {
 
     @Subscribe
     public void clickNeighbour(ClickNeighbourEvent event) {
-
+        Log.e("intent", event.neighbour.getName());
         Intent intent = new Intent(getActivity(), DetailActivity.class);
+        intent.putExtra(DetailActivity.KEY_NEIGHBOUR, event.neighbour);
         startActivity(intent);
     }
 }
