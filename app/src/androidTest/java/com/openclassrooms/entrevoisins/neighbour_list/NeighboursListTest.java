@@ -18,10 +18,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
 import static android.support.test.espresso.matcher.ViewMatchers.hasChildCount;
 import static android.support.test.espresso.matcher.ViewMatchers.hasMinimumChildCount;
+import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.openclassrooms.entrevoisins.utils.RecyclerViewItemCountAssertion.withItemCount;
@@ -85,8 +87,30 @@ public class NeighboursListTest {
     public void Detail_Launch() {
         onView(ViewMatchers.withId(R.id.list_neighbours))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(1, new DetailViewAction()));
-        ViewInteraction confirmation= onView(withId(R.id.Me))
-                .check(matches(withText("About Me")));
+        onView(withId(R.id.whiteName))
+                .check(matches(withText("Jack")));
     }
+    @Test
+    public void Check_Favoris(){
+        onView(ViewMatchers.withId(R.id.list_neighbours))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(1, new DetailViewAction()));
+        onView(ViewMatchers.withId(R.id.buttonFav))
+                .perform(click());
+        onView(withContentDescription("Navigate up")).perform(click());
+        onView(ViewMatchers.withId(R.id.list_neighbours))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(2, new DetailViewAction()));
+        onView(ViewMatchers.withId(R.id.buttonFav))
+                .perform(click());
+        onView(withContentDescription("Navigate up")).perform(click());
+        onView(ViewMatchers.withId(R.id.list_neighbours))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(3, new DetailViewAction()));
+        onView(ViewMatchers.withId(R.id.buttonFav))
+                .perform(click());
+        onView(withContentDescription("Navigate up")).perform(click());
+        onView(withText("FAVORITES"))
+                .perform(click());
+        onView(ViewMatchers.withId(R.id.detail_List))
+                .check(matches(hasMinimumChildCount(3)));
 
+    }
 }
