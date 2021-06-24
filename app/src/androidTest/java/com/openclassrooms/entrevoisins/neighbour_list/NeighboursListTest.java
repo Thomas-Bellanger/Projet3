@@ -86,9 +86,9 @@ public class NeighboursListTest {
     @Test
     public void Detail_Launch() {
         onView(ViewMatchers.withId(R.id.list_neighbours))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(1, new DetailViewAction()));
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0, new DetailViewAction()));
         onView(withId(R.id.whiteName))
-                .check(matches(withText("Jack")));
+                .check(matches(withText("Caroline")));
     }
     @Test
     public void Check_Favoris(){
