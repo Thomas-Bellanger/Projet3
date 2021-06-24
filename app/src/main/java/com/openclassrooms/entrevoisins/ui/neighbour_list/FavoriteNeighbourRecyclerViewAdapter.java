@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.openclassrooms.entrevoisins.R;
+import com.openclassrooms.entrevoisins.events.ClickNeighbourEvent;
 import com.openclassrooms.entrevoisins.events.RemoveNeighbourEvent;
 import com.openclassrooms.entrevoisins.model.Neighbour;
 
@@ -64,9 +65,7 @@ public class FavoriteNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<F
         holder.mNeighbourName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), DetailActivity.class);
-                intent.putExtra(KEY_NEIGHBOUR, neighbour);
-                v.getContext().startActivity(intent);
+                EventBus.getDefault().post(new ClickNeighbourEvent(neighbour));
             }
         });
     }

@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.openclassrooms.entrevoisins.R;
 import com.openclassrooms.entrevoisins.di.DI;
+import com.openclassrooms.entrevoisins.events.ClickEvent;
 import com.openclassrooms.entrevoisins.events.ClickNeighbourEvent;
 import com.openclassrooms.entrevoisins.events.RemoveNeighbourEvent;
 import com.openclassrooms.entrevoisins.model.Neighbour;
@@ -88,8 +89,9 @@ public class FavoriteFragment extends Fragment {
      * @param event
      */
     @Subscribe
-    public void clickNeighbour(ClickNeighbourEvent event) {
+    public void clickNeighbour(ClickEvent event) {
         Intent intent = new Intent(getActivity(), DetailActivity.class);
+        intent.putExtra(DetailActivity.KEY_NEIGHBOUR, event.neighbour);
         startActivity(intent);
     }
 
