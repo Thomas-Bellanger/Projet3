@@ -43,8 +43,6 @@ public class MyNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<MyNeigh
                 .inflate(R.layout.fragment_neighbour, parent, false);
 
         return new ViewHolder(view);
-
-
     }
 
     @Override
